@@ -1,0 +1,214 @@
+/* Estilos básicos para o corpo da página */
+body { 
+    font-family: Arial, sans-serif; 
+    margin: 0; 
+    padding: 0; 
+}
+
+/* Estilos para o botão de chat */
+#chat-button {
+    
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #c91616;
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para o contêiner do chat */
+#chat-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 320px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Estilos para o cabeçalho do chat */
+#chat-header {
+    background: #0073aa;
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    justify-content: space-between;
+}
+
+/* Estilos para o título do chat */
+#chat-header-left {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilos para a imagem do chat */
+#chat-header img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+/* Estilos para o título do chat */
+#chat-title {
+    display: flex;
+    flex-direction: column;
+}
+/* Estilos para o status do chat */
+#chat-status {
+    font-size: 12px;
+    color: #d1e7fd;
+}
+
+/* Estilos para o botão de fechar o chat */
+#close-chat {
+    background: white;
+    border: 2px solid #0073aa;
+    color: #0073aa;
+    font-size: 12px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Estilos para a área de mensagens do chat */
+#chat-messages {
+    padding: 10px;
+    height: 250px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+/* Estilos para as mensagens do chat */
+#chat-messages .message {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 15px;
+    max-width: 80%;
+}
+/* Estilos para as mensagens do usuário */
+#chat-messages .user {
+    background: #d1e7fd;
+    align-self: flex-end;
+    text-align: right;
+}
+
+/* Estilos para as mensagens do bot */
+#chat-messages .bot {
+    background: #f1f1f1;
+    align-self: flex-start;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+/* Estilos para a imagem do bot */
+#chat-messages .bot img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+/* Estilos para a área de entrada de texto do chat */
+#chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+/* Estilos para a entrada de texto do usuário */
+#user-input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+/* Estilos para o botão de envio de mensagem */
+#send-button {
+    background: #0073aa;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+/* Animação de fade-in */   
+.message {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 15px;
+    max-width: 80%;
+}
+
+/* Estilos para as mensagens do usuário */  
+.user {
+    background: #d1e7fd;
+    align-self: flex-end;
+    text-align: right;
+}
+
+/* Estilos para as mensagens do bot */  
+.bot {
+    background: #f1f1f1;
+    align-self: flex-start;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+/* Estilos para a imagem do bot */  
+.bot img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+/* Estilos para a área de entrada de texto do chat */
+#chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+/* Estilos para a entrada de texto do usuário */
+#user-input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+/* Estilos para o botão de envio de mensagem */
+#send-button {
+    background: #0073aa;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+/* Animação de fade-in */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

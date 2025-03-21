@@ -1,0 +1,45 @@
+<!--Esta página contém a interface do usuário, onde o usuário pode interagir 
+com o chatbot. Ela inclui um formulário ou campo de entrada para o usuário 
+enviar mensagens.-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Moodle</title>
+    <!-- Inclusão do arquivo CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Botão de chat com imagem -->
+    <button id="chat-button">
+        <!-- Imagem do ícone do chat - a vea -->
+        <img src="img/chat-1024.webp" alt="Chat Icon" style="width: 50px; height: 50px;">
+    </button>
+    <!-- Contêiner do chat -->
+    <div id="chat-container">
+        <!-- Cabeçalho do chat -->
+        <div id="chat-header">
+            <div id="chat-header-left">
+                <img src="img/Captura de tela 2025-03-13 145653.png" alt="Bot">
+                <div id="chat-title">
+                    <div> Martin Dougiamas</div>
+                    <span id="chat-status">Online agora</span>
+                </div>
+            </div>
+            <button id="close-chat">✖</button>
+        </div>
+        <!-- Área de mensagens do chat -->
+        <div id="chat-messages"></div>
+        <!-- Área de entrada de texto do chat -->
+        <div id="chat-input">
+            <input type="text" id="user-input" placeholder="Digite sua pergunta...">
+            <button id="send-button">➤</button>
+        </div>
+    </div>
+
+    <!-- Inclusão do script JavaScript -->
+    <script src="js/chatbot.js"></script>
+</body>
+</html>

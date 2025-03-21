@@ -1,0 +1,42 @@
+version: "3"
+services:
+  mysql:
+    image: 'mariadb:latest'
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=your_root_password  # Substitua pela senha correta
+      - MYSQL_DATABASE=chatbotmoodle_bd
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=your_root_password  # Substitua pela senha correta
+    ports:
+      - '3306:3306'
+    volumes:
+      - C:/path/to/your/volume/mysql/lib/mysql:/var/lib/mysql
+      - C:/path/to/your/volume/mysql/etc/mysql/conf.d:/etc/mysql/conf.d
+
+  web:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - C:/path/to/your/volume/php/php.ini:/usr/local/etc/php/php.ini
+      - C:/path/to/your/volume/moodledata:/var/moodledata
+      - C:/path/to/your/volume/html:/var/www/html
+      - C:/path/to/your/volume/apache2/sites-enabled:/etc/apache2/sites-enabled
+      - C:/path/to/your/volume/apache2/sites-available:/etc/apache2/sites-available
+    depends_on:
+      - mysql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: esp.coronavirus@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: abVYbdpXWW9y7YPY
+    volumes:
+      - C:/path/to/your/volume/pgadmin:/root/.pgadmin
+    restart: unless-stopped
+    ports:
+      - "81:80"
+      - "444:443"
