@@ -62,7 +62,7 @@ closeChat.addEventListener("click", () => {
         //enviando o cabeçalho Content-Type
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
     })
-    //recebendo a resposta do servidor
+    //recebendo a resposta do servidor em formato de texto
     .then(response => response.text())
     .then(data => {
         alert(data); // Exibir mensagem do servidor

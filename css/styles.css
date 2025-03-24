@@ -11,7 +11,8 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #c91616;
+    /**background-color: #39b9e0;**/
+    background: linear-gradient(to bottom, #64bbe4, #0587af);
     color: white;
     border: none;
     width: 60px;
@@ -19,7 +20,7 @@ body {
     border-radius: 50%;
     font-size: 24px;
     cursor: pointer;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Estilos para o contêiner do chat */
