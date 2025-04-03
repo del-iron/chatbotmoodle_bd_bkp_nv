@@ -32,11 +32,31 @@ if (!$pdo) {
 }
 
 function buscar_resposta($pdo, $message) {
-    $sql = "SELECT resposta FROM perguntas_respostas WHERE pergunta LIKE ? ORDER BY LENGTH(pergunta) DESC LIMIT 1";
+    $sql = "
+        SELECT DISTINCT pr.resposta, 
+               MATCH(pk.palavra) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevancia
+        FROM perguntas_respostas pr
+        INNER JOIN palavras_chave pk ON pr.id = pk.pergunta_id
+        WHERE MATCH(pk.palavra) AGAINST(? IN NATURAL LANGUAGE MODE)
+        ORDER BY relevancia DESC
+        LIMIT 5
+    ";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(["%$message%"]);
-    $result = $stmt->fetch();
-    return $result ? $result['resposta'] : null;
+    $stmt->execute([$message, $message]);
+    $results = $stmt->fetchAll();
+
+    if (count($results) > 1) {
+        $respostas = [];
+        foreach ($results as $index => $result) {
+            // Adiciona cada resposta com numeração e quebra de linha
+            $respostas[] = ($index + 1) . ". " . $result['resposta'];
+        }
+        // Junta as respostas com uma linha em branco entre elas
+        return "Ah, meu bem... achei várias respostas que podem te ajudar! Você quis dizer algo assim?\n\n" . implode("\n\n", $respostas);
+    }
+
+    // Retorna a única resposta encontrada ou null
+    return $results[0]['resposta'] ?? null;
 }
 
 // Busca a resposta no banco de dados
