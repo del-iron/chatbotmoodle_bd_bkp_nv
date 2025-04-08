@@ -46,7 +46,7 @@ if (isset($_SESSION['opcoes_contextos']) && is_numeric($message)) {
         exit;
     } else {
         // Caso o índice seja inválido
-        paramentros::send_response("Opção inválida. Por favor, escolha uma opção válida.");
+        paramentros::send_response("Tá em dúvida? Escolhe uma das opções listadas, tranquilo?");
         exit;
     }
 }
@@ -68,7 +68,7 @@ if (isset($_SESSION['opcoes_respostas']) && is_numeric($message)) {
         exit;
     } else {
         // Caso o índice seja inválido
-        paramentros::send_response("Opção inválida. Por favor, escolha uma opção válida.");
+        paramentros::send_response("Errou! Essa opção não existe... vê direitinho e tenta de novo, tá bom?");
         exit;
     }
 }
@@ -101,8 +101,13 @@ function buscar_contextos($pdo, $message) {
         // Armazena os contextos na sessão para a próxima interação
         $_SESSION['opcoes_contextos'] = $results;
 
-        // Retorna os contextos para o usuário
-        return "Vamos analisar... achei alguns contextos que podem te ajudar! Escolha um deles:\n\n" . implode("\n\n", $contextos) . "\n\nPor favor, escolha uma opção (1, 2, etc.).";
+        // Concatena a introdução e as opções em uma única mensagem
+        $response = "Hum... ! Olha essas sugestões e escolhe a que faz mais sentido... \n\n "
+            . implode("\n ", $contextos) 
+            . "\n\nPor favor, escolha uma das " . count($contextos) . " opções listadas acima!";
+
+        // Retorna a mensagem completa
+        return $response;
     }
 
     // Retorna o único contexto encontrado ou null
@@ -114,7 +119,14 @@ function buscar_resposta_por_contexto($pdo, $contexto) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$contexto]);
     $result = $stmt->fetch();
-    return $result['resposta'] ?? null;
+
+    if ($result) {
+        // Envia a resposta como uma fala separada
+        paramentros::send_response($result['resposta']);
+        exit;
+    }
+
+    return null;
 }
 
 function buscar_resposta($pdo, $message) {
@@ -141,8 +153,13 @@ function buscar_resposta($pdo, $message) {
         // Armazena as opções na sessão para a próxima interação
         $_SESSION['opcoes_respostas'] = $results;
 
-        // Retorna as opções para o usuário
-        return "Ah, meu bem... achei várias respostas que podem te ajudar! Você quis dizer algo assim?\n\n" . implode("\n\n", $respostas) . "\n\nPor favor, escolha uma opção (1, 2, etc.).";
+        // Armazena a primeira resposta na sessão para futuras referências
+        $_SESSION['ultima_resposta'] = $results[0]['resposta'];
+
+        // Retorna as opções para o usuário - 3
+        return "Me parece que o que você perguntou tem a ver com uma dessas possibilidades:" 
+        . implode("\n", $respostas) . "\n"
+        . "Diz aí o número que a gente segue em frente!";
     }
 
     // Retorna a única resposta encontrada ou null
@@ -166,14 +183,18 @@ if ($resposta === null) {
             $resposta = "$user_name, sinto muito, não consegui te entender. Encerrando o chat... Tchauuu!";
             session_unset();
             session_destroy();
+            // Simula resposta humana antes de encerrar
+            usleep(rand(2000000, 4000000)); // Entre 2 e 4 segundos
             paramentros::send_response($resposta);
             exit;
     }
 }
 
-// Simula resposta humana
+// Simula resposta humana antes de enviar a resposta
 usleep(rand(2000000, 4000000)); // Entre 2 e 4 segundos
 
-// Envia os contextos ou a resposta ao usuário
+// Substitui \n por \n para garantir que o frontend interprete corretamente
+$resposta = str_replace("\n", "\n", $resposta);
+
 paramentros::send_response($resposta);
 ?>

@@ -29,6 +29,7 @@ class paramentros {
 
     // Função para enviar resposta e encerrar o script
     public static function send_response($response) {
+        header("Content-Type: text/html; charset=UTF-8"); // Define o cabeçalho como HTML
         echo $response;
         exit;
     }

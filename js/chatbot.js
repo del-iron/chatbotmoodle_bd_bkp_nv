@@ -62,7 +62,7 @@ closeChat.addEventListener("click", () => {
         //enviando o cabeçalho Content-Type
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
     })
-    //recebendo a resposta do servidor em formato de texto
+    //recebendo a resposta do servidor
     .then(response => response.text())
     .then(data => {
         alert(data); // Exibir mensagem do servidor
@@ -100,8 +100,8 @@ function sendMessage() {
     .then(data => {
         setTimeout(() => {
             hideTypingIndicator();
-            displayBotMessageWithTypingEffect(data);
-        }, 2000);
+            processBotMessages(data); // Processa mensagens separadas
+        }, 1000); // Atraso inicial para simular o tempo de resposta do bot
     })
     .catch(error => {
         hideTypingIndicator();
@@ -169,50 +169,43 @@ function hideTypingIndicator() {
 function displayBotMessageWithTypingEffect(text) {
     let msg = document.createElement("div");
     msg.classList.add("message", "bot");
-    
-     // Remover a imagem do bot
-    // let img = document.createElement("img");
-    // img.src = "https://i.imgur.com/6RK7NQp.png";
-    // msg.appendChild(img);
-    
+
     let span = document.createElement("span");
-    span.textContent = "";
+    span.innerHTML = ""; // Inicializa o conteúdo vazio
     msg.appendChild(span);
-    //adicionar a mensagem na caixa de mensagens
     chatMessages.appendChild(msg);
-    
-    // Efeito de digitação caractere por caractere com velocidade variável
+
     let i = 0;
 
-    //função para digitar o caractere
     function typeCharacter() {
         if (i < text.length) {
-            span.textContent += text.charAt(i);
+            span.innerHTML += text.charAt(i); // Adiciona caractere por caractere
             i++;
-            //rolar a caixa de mensagens para o final
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            // Velocidade de digitação variável para parecer mais humano
-            // Mais rápido em partes do meio, mais lento no início e fim
-            let typingSpeed;
-            
-            // Verificar se o caractere está no início ou fim da mensagem
-            if (i < 5 || i > text.length - 10) {
-                // Mais lento no início e fim da mensagem
-                typingSpeed = Math.random() * 70 + 50; // 50-120ms
-            } else {
-                // Mais rápido no meio da mensagem
-                typingSpeed = Math.random() * 40 + 30; // 30-70ms
-            }
-            
-            // Pausa mais longa em pontuação
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Rola para o final
+
+            let typingSpeed = Math.random() * 50 + 30; // Velocidade de digitação
             if (['.', '!', '?', ',', ':'].includes(text.charAt(i - 1))) {
-                typingSpeed += 300; // Pausa extra em pontuação
+                typingSpeed += 300; // Pausa maior após pontuações
             }
-            //chamando a função novamente
             setTimeout(typeCharacter, typingSpeed);
+        } else {
+            isBotTyping = false; // Finaliza o estado de digitação
         }
     }
-    //chamando a função
     typeCharacter();
+}
+
+// Ajuste para processar mensagens separadas por quebras de linha
+function processBotMessages(data) {
+    const messages = data.split("\n"); // Divide as mensagens por quebra de linha
+    let delay = 0;
+
+    messages.forEach((message) => {
+        if (message.trim() !== "") {
+            setTimeout(() => {
+                displayBotMessageWithTypingEffect(message.trim());
+            }, delay);
+            delay += message.length * 50 + 500; // Ajusta o atraso com base no tamanho da mensagem
+        }
+    });
 }
