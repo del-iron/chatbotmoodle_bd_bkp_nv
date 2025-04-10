@@ -102,7 +102,7 @@ function buscar_contextos($pdo, $message) {
         $_SESSION['opcoes_contextos'] = $results;
 
         // Concatena a introdução e as opções em uma única mensagem
-        $response = "Olha só, revisei sua dúvida e tenho sugestões que podem ser úteis! \n\n "
+        $response = "Olha só, verifiquei sua dúvida e tenho sugestões que podem ser úteis! \n\n "
             . implode("\n ", $contextos) 
             . "\n\nPor favor, escolha uma das " . count($contextos) . " opções listadas acima!";
 
