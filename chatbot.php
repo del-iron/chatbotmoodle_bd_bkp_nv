@@ -46,7 +46,7 @@ if (isset($_SESSION['opcoes_contextos']) && is_numeric($message)) {
         exit;
     } else {
         // Caso o índice seja inválido
-        paramentros::send_response("Tá em dúvida? Escolhe uma das opções listadas, tranquilo?");
+        paramentros::send_response("Ops! Parece que essa opção não é válida. Por favor, escolha uma das opções listadas acima");
         exit;
     }
 }
@@ -85,7 +85,7 @@ function buscar_contextos($pdo, $message) {
         WHERE MATCH(pk.palavra) AGAINST(? IN NATURAL LANGUAGE MODE)
         GROUP BY pr.contexto
         ORDER BY relevancia DESC
-        LIMIT 5
+        LIMIT 10
     ";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$message, $message]);
@@ -102,7 +102,7 @@ function buscar_contextos($pdo, $message) {
         $_SESSION['opcoes_contextos'] = $results;
 
         // Concatena a introdução e as opções em uma única mensagem
-        $response = "Hum... ! Olha essas sugestões e escolhe a que faz mais sentido... \n\n "
+        $response = "Olha só, revisei sua dúvida e tenho sugestões que podem ser úteis! \n\n "
             . implode("\n ", $contextos) 
             . "\n\nPor favor, escolha uma das " . count($contextos) . " opções listadas acima!";
 
@@ -137,7 +137,7 @@ function buscar_resposta($pdo, $message) {
         INNER JOIN palavras_chave pk ON pr.id = pk.pergunta_id
         WHERE MATCH(pk.palavra) AGAINST(? IN NATURAL LANGUAGE MODE)
         ORDER BY relevancia DESC
-        LIMIT 5
+        LIMIT 10
     ";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$message, $message]);
