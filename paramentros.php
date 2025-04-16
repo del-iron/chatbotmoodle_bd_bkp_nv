@@ -8,7 +8,7 @@ class paramentros {
     private static $dbHost = 'localhost';
     private static $dbName = 'chatbot_moodle';
     private static $dbUser = 'root';
-    private static $dbPass = 'root';
+    private static $dbPass = ''; // Senha do banco de dados (deixe vazio se não houver senha)
     private static $dbCharset = 'utf8mb4';
 
     // Método para obter a conexão com o banco de dados
